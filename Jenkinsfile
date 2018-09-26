@@ -28,10 +28,9 @@ pipeline {
     stage('dockerise'){
       steps{
         echo 'dockerise'
-        docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
         script {
           dockerPath = tool 'docker'
-
+          docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
         }
       }
     }
@@ -45,13 +44,14 @@ pipeline {
       withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         script {
           dockerPath = tool 'docker'
-          docker.withRegistry('', 'docker-credentials') {
-            def build = docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
-            def latest = docker.build("vineetvermait/cricapi:latest")
-            build.push()
-            latest.push()
-            docker.image('vineetvermait/cricapi:latest').withRun('-p 8080:8080')
-          }
+          sh "'${dockerPath}/bin/docker' login -u ${USERNAME} -p ${PASSWORD}"
+
+          sh "'${dockerPath}/bin/docker' build -t vineetvermait/cricapi:${env.BUILD_ID} ."
+          sh "'${dockerPath}/bin/docker' push vineetvermait/cricapi:${env.BUILD_ID}"
+
+          sh "'${dockerPath}/bin/docker' tag vineetvermait/cricapi:${env.BUILD_ID} vineetvermait/cricapi:latest"
+          sh "'${dockerPath}/bin/docker' push vineetvermait/cricapi:latest"
+          sh "'${dockerPath}/bin/docker' run -d -p 8080:8080 vineetvermait/cricapi:latest"          }
         }
       }
     }
