@@ -18,13 +18,13 @@ public class RESTEndpoint {
 
     private MatchAPIService service = new MatchAPIService();
 
-    @GetMapping(value = "/{matchId}")
+    @GetMapping(value = "/match/{matchId}")
     public ResponseEntity getMatchDetails(@PathVariable(value = "matchId") String matchId) {
         MatchSummary match = service.getMatchSummary(matchId);
         return ResponseEntity.ok(match);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/matches")
     public ResponseEntity getMatches() {
         List<MatchSummary> matches = service.getMatchList();
 

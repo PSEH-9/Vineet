@@ -22,13 +22,9 @@ public class RESTEndpointTest {
     @Test
     public void given_whenNameInRequest_ThenShouldPrintNameWithHelloWorld() {
         try {
-//            MatchSummary expected = new MatchSummary();
-//            expected.setMatchId("1");
-////            expected.setTeam1(new Team("1", "Random Team #1"));
-//            expected.setTeam2(new Team("1", "Random Team #2"));
             mvc.perform(
                     MockMvcRequestBuilders
-                            .get("/1"))
+                            .get("/match/1"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
 //                    .andExpect(MockMvcResultMatchers.content().equals());
             ;
@@ -43,7 +39,7 @@ public class RESTEndpointTest {
 
             mvc.perform(
                     MockMvcRequestBuilders
-                            .get("/"))
+                            .get("/matches/"))
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } catch (Exception e) {
             e.printStackTrace();
