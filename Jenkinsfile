@@ -11,7 +11,7 @@ pipeline {
     stage('prepare'){
       steps{
         echo 'prepare'
-        git 'https://github.com/vineetvermait/poc'
+        git 'https://github.com/PSEH-9/Vineet'
       }
     }
     stage('build'){
@@ -30,7 +30,7 @@ pipeline {
         echo 'dockerise'
         script {
           dockerPath = tool 'docker'
-          sh "'${dockerPath}/bin/docker' build -t vineetvermait/poc:${env.BUILD_ID} ."
+          sh "'${dockerPath}/bin/docker' build -t vineetvermait/cricapi:${env.BUILD_ID} ."
         }
       }
     }
@@ -46,12 +46,12 @@ pipeline {
           dockerPath = tool 'docker'
           sh "'${dockerPath}/bin/docker' login -u ${USERNAME} -p ${PASSWORD}"
 
-          sh "'${dockerPath}/bin/docker' build -t vineetvermait/poc:${env.BUILD_ID} ."
-          sh "'${dockerPath}/bin/docker' push vineetvermait/poc:${env.BUILD_ID}"
+          sh "'${dockerPath}/bin/docker' build -t vineetvermait/cricapi:${env.BUILD_ID} ."
+          sh "'${dockerPath}/bin/docker' push vineetvermait/cricapi:${env.BUILD_ID}"
 
-          sh "'${dockerPath}/bin/docker' tag vineetvermait/poc:${env.BUILD_ID} vineetvermait/poc:latest"
-          sh "'${dockerPath}/bin/docker' push vineetvermait/poc:latest"
-          sh "'${dockerPath}/bin/docker' run -d -p 8080:8080 vineetvermait/poc:latest"
+          sh "'${dockerPath}/bin/docker' tag vineetvermait/cricapi:${env.BUILD_ID} vineetvermait/cricapi:latest"
+          sh "'${dockerPath}/bin/docker' push vineetvermait/cricapi:latest"
+          sh "'${dockerPath}/bin/docker' run -d -p 8080:8080 vineetvermait/cricapi:latest"
         }
       }
     }

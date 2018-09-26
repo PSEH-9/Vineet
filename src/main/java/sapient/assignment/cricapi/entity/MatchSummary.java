@@ -40,6 +40,9 @@ public class MatchSummary {
 
     public String getWinner() {
         if (isMatchOver()) {
+            if (getTeam1().getScore() == null || getTeam2().getScore() == null) {
+                return null;
+            }
             if (getTeam1().getScore().score > getTeam2().getScore().score) {
                 return getTeam1().getTeamId();
             } else if (getTeam1().getScore().score < getTeam2().getScore().score) {
