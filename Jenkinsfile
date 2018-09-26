@@ -45,12 +45,11 @@ pipeline {
         script {
           dockerPath = tool 'docker'
           docker.withRegistry('', 'docker-credentials') {
-            //sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-            //docker.login("${USERNAME}","${PASSWORD}")
             def build=docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
             def latest=docker.build("vineetvermait/cricapi:latest")
             build.push()
             latest.push()
+            docker.image('vineetvermait/cricapi:latest').withRun('-p 8080:8080')
           }
         }
       }
