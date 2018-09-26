@@ -42,14 +42,17 @@ pipeline {
     }
     success {
       withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          docker.withRegistry('', 'docker-credentials') {
-            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-            docker.login("${USERNAME}","${PASSWORD}")
-            def build=docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
-            def latest=docker.build("vineetvermait/cricapi:latest")
-            build.push()
-            latest.push()
-          }
+        script {
+                    docker.withRegistry('', 'docker-credentials') {
+                      sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                      docker.login("${USERNAME}","${PASSWORD}")
+                      def build=docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
+                      def latest=docker.build("vineetvermait/cricapi:latest")
+                      build.push()
+                      latest.push()
+                    }
+
+        }
       }
     }
   }
