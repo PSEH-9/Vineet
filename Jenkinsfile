@@ -51,7 +51,7 @@ pipeline {
 
           sh "'${dockerPath}/bin/docker' tag vineetvermait/cricapi:${env.BUILD_ID} vineetvermait/cricapi:latest"
           sh "'${dockerPath}/bin/docker' push vineetvermait/cricapi:latest"
-          sh "'${dockerPath}/bin/docker' run -d -p 8080:8080 vineetvermait/cricapi:latest"          }
+          sh "'${dockerPath}/bin/docker' run -d -p 8888:8080 vineetvermait/cricapi:latest"          }
         }
       }
     }
