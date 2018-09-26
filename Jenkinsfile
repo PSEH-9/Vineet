@@ -30,7 +30,8 @@ pipeline {
         echo 'dockerise'
         script {
           dockerPath = tool 'docker'
-          sh "'${dockerPath}/bin/docker' build -t vineetvermait/cricapi:${env.BUILD_ID} ."
+          // sh "'${dockerPath}/bin/docker' build -t vineetvermait/cricapi:${env.BUILD_ID} ."
+          docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
         }
       }
     }
