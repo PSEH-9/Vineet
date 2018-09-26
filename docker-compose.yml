@@ -1,0 +1,10 @@
+version: '2'
+services:
+  jenkins:
+    image: 'jenkins/jenkins:lts'
+    ports:
+      - '80:8080'
+      - '443:443'
+    volumes:
+      - '/jenkins_data:/var/jenkins_home'
+      - '/var/run/docker.sock:/var/run/docker.sock'
