@@ -28,9 +28,10 @@ pipeline {
     stage('dockerise'){
       steps{
         echo 'dockerise'
+        docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
         script {
           dockerPath = tool 'docker'
-          docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
+
         }
       }
     }
@@ -45,8 +46,8 @@ pipeline {
         script {
           dockerPath = tool 'docker'
           docker.withRegistry('', 'docker-credentials') {
-            def build=docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
-            def latest=docker.build("vineetvermait/cricapi:latest")
+            def build = docker.build("vineetvermait/cricapi:${env.BUILD_ID}")
+            def latest = docker.build("vineetvermait/cricapi:latest")
             build.push()
             latest.push()
             docker.image('vineetvermait/cricapi:latest').withRun('-p 8080:8080')
